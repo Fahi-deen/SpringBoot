@@ -18,7 +18,7 @@ import com.fahideen.springboot.model.Employee;
 import com.fahideen.springboot.service.EmployeeService;
 
 @RestController
-@RequestMapping(value="/api/employees")
+@RequestMapping("/api/employees")
 public class EmployeeController {
 	
 	private EmployeeService employeeService;

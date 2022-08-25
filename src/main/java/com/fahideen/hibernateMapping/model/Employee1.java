@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee1 {
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private long id;
