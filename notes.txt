@@ -1,0 +1,150 @@
+SpringMVC uses jackson library to internally convert JSON to java and java to JSON during mapping..
+lombok dependency -automatically create getter setter tostring constructor to use add @Data before class 
+JPA interface:
+  -It is created by oracle.
+  -it defines set of rules which need to follow for example if any company want to create ORM they need to implement JPA
+   so we can easily switch ORM like hibernate or other ORM because it have same methods like save(),update().. 
+dont forget CSR(c-controller s-service r-repository..start with service)
+eg-
+@RestController
+public class HelloController {
+  @RequestMapping(value = "/",method = RequestMethod.GET)
+  public String helloworld() {
+	  return "welcome";
+  }}
+  or we can use @GetMapping("/") for post we use @PostMapping("/")
+  
+Request mapping- we need to map what file page title we need call
+eg -@RequestMapping(value = "/") it is http://localhost:8080/
+
+Spring devTool dependency:automatically add changees in browser by refreshing..
+
+H2 database:
+--add h2 application properties.
+--open http://localhost:8080/h2-console
+--enter the detail which we configure in application properties and login..
+
+Entity folder:
+   (reference:https://www.youtube.com/watch?v=8SGI_XS5OPw)
+  --In this folder ,we add class'es(POJO class with toString) that we need in database (table and its contents).
+Inside Entity Class:
+  -- we add Entity Annotation before the class.
+     eg: @Entity(name="Department") //(name="Department") is optional by default name is same as class name
+           public class Department {} 
+  --we need to define @Id(i.e primary key) and @GeneratedValue(it will increment the value one by one) in the required field of the class 
+  (@Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+    private long departmentId;)
+  --if we want to take full control on columns of database (in class it is field) we use @Column annotation.
+     eg:
+       @Column
+       (
+        name="first_name",
+        nullable=false, //make name column value is not null
+        updatable=false, //cannot update this
+        columnDefinition="TEXT" //define the datatype we need in database type.
+       )
+       private String name;
+       
+  --if we want to take full control on table of database we use @Table annotation.
+      eg:
+        @Table(
+             name="department",
+             uniqueConstraints={
+              @UniqueConstraint(name="deparment_email",columnNames="email")
+              }
+       
+Repository folder:
+	--It is interface.
+	--it is data access layer of entity where we can perform CRUD operations.
+	--it must extend either JPARepository or PagingAndSortingRepository or CrudRepository
+    eg:
+     @Repository
+		public interface DepartmentRepository extends JpaRepository<Department, Long>{
+
+}    //<T,ID> T-Select the Entity(in this we want to work on Department Entity)
+              ID-it is field dataType of the primary key of that Entity(in this it is @Id private long departmentId; so
+              we use long)
+Command line Runner:
+          it is used to give input value directly (without using postman..)
+          eg: public class Application {
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);}
+		@Bean
+		CommandLineRunner commandLineRunner(DepartmentRepository department) {
+			return args->{
+				Department it_dept=new Department(2201,"It-Department","a1","007");
+				department.save(it_dept);
+			};
+	}
+
+}
+Controller folder:
+	-class in this is used to control the other class (ie mapping which class/page needed to execute
+	 when changing the page url example 
+	 @PostMapping("/departments")  
+		public Department saveDepartment(@RequestBody Department department) {
+			return departmentService.saveDepartment(department);}).
+    -@RestController it is combination of @Controller and @ResponseBody
+    -@ResponseEntity ..by using this we can give custom http messages
+      eg :public ResponseEntity<Employee> saveEmployeeEntity(@RequestBody Employee employee){
+		return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);}
+    -@RequestBody annotation maps the HttpRequest body to a transfer or domain object
+     enabling automatic deserialization of the inbound HttpRequest body onto a Java object.
+     (JSON to java Object(field) conversion)
+    -@pathVariable annoatation we bind the request URL template path variable to the method variable.
+    
+    eg:
+      @GetMapping("student/{firstName}/{lastName}")
+       public Student studentPathVariable(@PathVariable("firstName") String firstName,@PathVariable("lastName") String lastName)
+        { return new Student(firstName,lastName);}
+    //build rest API to handle query parameters
+    //http://localhost:8080/student?firstName=hameed&lastName=Fahideen
+	-@RequestParam  we can use @RequestParam to extract query parameters, form parameters, and even files from the request.
+	eg:
+       @GetMapping("student/{firstName}/{lastName}")
+       public Student studentPathVariable(@RequestParam(name="firstName") String firstName,@RequestParam(name="lastName") String lastName)
+        { return new Student(firstName,lastName);}
+    -to get all the details we need to create a list in service and use findall method. and use getMapping
+exception package:
+  Handling exception in webpage..
+  @ResponseStatus(value=HttpStatus.NOT_FOUND)
+	public class ResourceNotFoundException extends RuntimeException {
+      private static final long serialVersionUID = 1L;
+      public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
+		super(String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue));
+		this.resourceName = resourceName;
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
+		//add getter for this and declare the fields
+	}}
+ 
+service package:
+  there will be service package and service.impl
+    -service package is interface
+    -we write Business Logic in service.impl that is class
+     this class implements service interface..
+service impl package:
+      -we add @Service annotation before the class declaration.
+      -there are two types of dependency injection constructor based and setter based
+      -use constructor-based dependency injection whenever we have mandotary parameters.
+      - use setter-based dependency injection whenever we have optional parameters.
+      -if we have one constructer based dependency we dont need to add @Autowired.
+
+      
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
