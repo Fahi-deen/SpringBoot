@@ -58,7 +58,7 @@ public class EmployeeController {
 	}
 	@RequestMapping("/welcome")
 	public String welcome() {
-		return "Welcome";
+		return "Welcome to springBootRestApi";
 	}
 	
 	
