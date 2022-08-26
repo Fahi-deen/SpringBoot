@@ -22,7 +22,7 @@ import com.fahideen.springboot.service.EmployeeService;
 
 
 @RestController
-@RequestMapping("/d")
+@RequestMapping("/hibernate")
 public class EmployeeController1 {
 	
 	private EmployeeService employeeService;

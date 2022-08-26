@@ -28,12 +28,12 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 	//build create Employee Rest API
-	@PostMapping()
+	@PostMapping("/save")
 	public ResponseEntity<Employee> saveEmployeeEntity(@RequestBody Employee employee){
 		return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
 	}
 	//build get all employees REST API
-	@GetMapping
+	@GetMapping("/getAll")
 	public List<Employee> getAllEmployee(){
 		return employeeService.getAllEmployees();
 	}

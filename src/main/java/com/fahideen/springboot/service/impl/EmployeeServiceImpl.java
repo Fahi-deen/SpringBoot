@@ -10,8 +10,9 @@ import com.fahideen.springboot.repository.EmployeeRepository;
 import com.fahideen.springboot.service.EmployeeService;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+	
     private EmployeeRepository employeeRepository;
-    
+//    public EmployeeServiceImpl() {}
 	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
 		super();
 		this.employeeRepository = employeeRepository;
@@ -43,12 +44,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee updateEmployee(Employee employee, long id) {
-		Employee existingEmployee=employeeRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Employee", "Id", id));
+		Employee existingEmployee=employeeRepository.findById(id).get();//.orElseThrow(()->new ResourceNotFoundException("Employee", "Id", id));
 		existingEmployee.setFirstName(employee.getFirstName());
 		existingEmployee.setLastName(employee.getLastName());
 		existingEmployee.setEmail(employee.getEmail());
-		employeeRepository.save(existingEmployee);
-		return null;
+		return employeeRepository.save(existingEmployee);
 	}
 
 	@Override
