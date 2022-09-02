@@ -3,7 +3,7 @@ package com.fahideen.springboot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages  = { "com.*"} )
+@SpringBootApplication(scanBasePackages  = { "com.*"})
 public class SpringBootBackendApplication { 
 
 	public static void main(String[] args) {
